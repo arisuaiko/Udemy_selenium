@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.GeckoDriverService;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -14,8 +15,9 @@ public class PositiveTests {
         System.out.println("Starting loginTest");
 
         //Create driver
+        GeckoDriverService service = new GeckoDriverService.Builder().withLogOutput(System.out).build();
         System.setProperty("webdriver.gecko.driver", "src/main/resources/geckodriver");
-        WebDriver driver = new FirefoxDriver();
+        WebDriver driver = new FirefoxDriver(service);
 
         //maximize browser window
         driver.manage().window().maximize();
@@ -50,7 +52,6 @@ public class PositiveTests {
         WebElement successMessage = driver.findElement(By.cssSelector("div#flash"));
         String expectedMessage = "You logged into a secure area!";
         String actualMessage = successMessage.getText();
-        //Assert.assertEquals(actualMessage, expectedMessage, "Actual message is not the same as expected");
         Assert.assertTrue(actualMessage.contains(expectedMessage), "Actual message does not contain expected message.\nActual message: " + actualMessage + "\nExpected Message: " + expectedMessage);
 
         //close browser
