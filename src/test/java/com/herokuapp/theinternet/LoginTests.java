@@ -9,11 +9,58 @@ import org.testng.Assert;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
+public class LoginTests {
 
-public class NegativeTests {
+    @Test(priority = 1, groups = {"positiveTests","smokeTests"})
+    public void positiveLoginTest() {
+        System.out.println("Starting loginTest");
+
+        //Create driver
+        GeckoDriverService service = new GeckoDriverService.Builder().withLogOutput(System.out).build();
+        System.setProperty("webdriver.gecko.driver", "src/main/resources/geckodriver");
+        WebDriver driver = new FirefoxDriver(service);
+
+        //maximize browser window
+        driver.manage().window().maximize();
+
+        //open test page
+        String url = "https://the-internet.herokuapp.com/login";
+        driver.get(url);
+        System.out.println("Page is opened");
+
+        //enter username
+        WebElement username = driver.findElement(By.id("username"));
+        username.sendKeys("tomsmith");
+        //enter password
+        WebElement password = driver.findElement(By.name("password"));
+        password.sendKeys("SuperSecretPassword!");
+        //click login button
+        WebElement logInButton = driver.findElement(By.tagName("button"));
+        logInButton.click();
+
+        //verifications:
+        //new url
+        String expectedUrl = "https://the-internet.herokuapp.com/secure";
+        String actualUrl = driver.getCurrentUrl();
+
+        Assert.assertEquals(actualUrl, expectedUrl, "Actual page URL is not the same as expected");
+
+        //logout button is visible
+        WebElement logOutButton = driver.findElement(By.xpath("//a[@class='button secondary radius']"));
+        Assert.assertTrue(logOutButton.isDisplayed(), "Log Out button is not visible");
+
+        //successful login message
+        WebElement successMessage = driver.findElement(By.cssSelector("div#flash"));
+        String expectedMessage = "You logged into a secure area!";
+        String actualMessage = successMessage.getText();
+        Assert.assertTrue(actualMessage.contains(expectedMessage), "Actual message does not contain expected message.\nActual message: " + actualMessage + "\nExpected Message: " + expectedMessage);
+
+        //close browser
+        driver.quit();
+    }
 
     @Parameters({"username", "password", "expectedMessage"})
-    @Test()
+    @Test(priority = 2, groups = {"negativeTests","smokeTests"})
     public void negativeLoginTest(String username, String password, String expectedErrorMessage) {
         System.out.println("Starting negativeLoginTest with " + username + " and " + password);
 
@@ -53,47 +100,4 @@ public class NegativeTests {
         //close browser
         driver.quit();
     }
-
- /*   @Test(priority = 2, groups = {"negativeTests"})
-    public void negativePasswordTest() {
-        System.out.println("Starting negativePasswordTest");
-
-        //Create driver
-        GeckoDriverService service = new GeckoDriverService.Builder().withLogOutput(System.out).build();
-        System.setProperty("webdriver.gecko.driver", "src/main/resources/geckodriver");
-        WebDriver driver = new FirefoxDriver(service);
-
-        //maximize browser window
-        driver.manage().window().maximize();
-
-        //open test page
-        String url = "https://the-internet.herokuapp.com/login";
-        driver.get(url);
-        System.out.println("Page is opened");
-
-        //enter username
-        WebElement username = driver.findElement(By.id("username"));
-        username.sendKeys("tomsmith");
-        //enter password
-        WebElement password = driver.findElement(By.name("password"));
-        password.sendKeys("SuperSecret");
-        //click login button
-        WebElement logInButton = driver.findElement(By.tagName("button"));
-        logInButton.click();
-
-        //verifications:
-        //same url
-        String actualUrl = driver.getCurrentUrl();
-
-        Assert.assertEquals(actualUrl, url, "Actual page URL is not the same as expected");
-
-        //unsuccessful login message
-        WebElement unSuccessMessage = driver.findElement(By.cssSelector("div#flash"));
-        String expectedMessage = "Your password is invalid!";
-        String actualMessage = unSuccessMessage.getText();
-        Assert.assertTrue(actualMessage.contains(expectedMessage), "Actual message does not contain expected message.\nActual message: " + actualMessage + "\nExpected Message: " + expectedMessage);
-
-        //close browser
-        driver.quit();
-    }*/
 }
