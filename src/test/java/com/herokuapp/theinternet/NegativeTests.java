@@ -8,9 +8,10 @@ import org.openqa.selenium.firefox.GeckoDriverService;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+
 public class NegativeTests {
 
-    @Test(priority = 1)
+    @Test(priority = 1, groups = { "negativeTests", "smokeTest" })
     public void negativeUsernameTest() {
         System.out.println("Starting negativeUsernameTest");
 
@@ -53,7 +54,7 @@ public class NegativeTests {
         driver.quit();
     }
 
-    @Test(priority = 2)
+    @Test(priority = 2, groups = {"negativeTests"})
     public void negativePasswordTest(){
         System.out.println("Starting negativePasswordTest");
 
