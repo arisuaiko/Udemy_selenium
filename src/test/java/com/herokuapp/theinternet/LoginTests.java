@@ -6,22 +6,29 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.GeckoDriverService;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 public class LoginTests {
 
-    @Test(priority = 1, groups = {"positiveTests","smokeTests"})
-    public void positiveLoginTest() {
-        System.out.println("Starting loginTest");
+    private WebDriver driver;
 
+    @BeforeMethod(alwaysRun = true)
+    private void setUp() {
         //Create driver
         GeckoDriverService service = new GeckoDriverService.Builder().withLogOutput(System.out).build();
         System.setProperty("webdriver.gecko.driver", "src/main/resources/geckodriver");
-        WebDriver driver = new FirefoxDriver(service);
+        driver = new FirefoxDriver(service);
 
         //maximize browser window
         driver.manage().window().maximize();
+    }
+
+    @Test(priority = 1, groups = {"positiveTests", "smokeTests"})
+    public void positiveLoginTest() {
+        System.out.println("Starting positiveLoginTest");
 
         //open test page
         String url = "https://the-internet.herokuapp.com/login";
@@ -54,23 +61,12 @@ public class LoginTests {
         String expectedMessage = "You logged into a secure area!";
         String actualMessage = successMessage.getText();
         Assert.assertTrue(actualMessage.contains(expectedMessage), "Actual message does not contain expected message.\nActual message: " + actualMessage + "\nExpected Message: " + expectedMessage);
-
-        //close browser
-        driver.quit();
     }
 
     @Parameters({"username", "password", "expectedMessage"})
-    @Test(priority = 2, groups = {"negativeTests","smokeTests"})
+    @Test(priority = 2, groups = {"negativeTests", "smokeTests"})
     public void negativeLoginTest(String username, String password, String expectedErrorMessage) {
         System.out.println("Starting negativeLoginTest with " + username + " and " + password);
-
-        //Create driver
-        GeckoDriverService service = new GeckoDriverService.Builder().withLogOutput(System.out).build();
-        System.setProperty("webdriver.gecko.driver", "src/main/resources/geckodriver");
-        WebDriver driver = new FirefoxDriver(service);
-
-        //maximize browser window
-        driver.manage().window().maximize();
 
         //open test page
         String url = "https://the-internet.herokuapp.com/login";
@@ -96,7 +92,10 @@ public class LoginTests {
         WebElement unSuccessMessage = driver.findElement(By.cssSelector("div#flash"));
         String actualMessage = unSuccessMessage.getText();
         Assert.assertTrue(actualMessage.contains(expectedErrorMessage), "Actual message does not contain expected message.\nActual message: " + actualMessage + "\nExpected Message: " + expectedErrorMessage);
+    }
 
+    @AfterMethod(alwaysRun = true)
+    private void tearDown() {
         //close browser
         driver.quit();
     }
