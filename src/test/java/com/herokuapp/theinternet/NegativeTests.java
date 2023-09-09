@@ -6,14 +6,16 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.GeckoDriverService;
 import org.testng.Assert;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 
 public class NegativeTests {
 
-    @Test(priority = 1, groups = { "negativeTests", "smokeTest" })
-    public void negativeUsernameTest() {
-        System.out.println("Starting negativeUsernameTest");
+    @Parameters({"username", "password", "expectedMessage"})
+    @Test()
+    public void negativeLoginTest(String username, String password, String expectedErrorMessage) {
+        System.out.println("Starting negativeLoginTest with " + username + " and " + password);
 
         //Create driver
         GeckoDriverService service = new GeckoDriverService.Builder().withLogOutput(System.out).build();
@@ -29,11 +31,11 @@ public class NegativeTests {
         System.out.println("Page is opened");
 
         //enter username
-        WebElement username = driver.findElement(By.id("username"));
-        username.sendKeys("incorrect");
+        WebElement usernameElement = driver.findElement(By.id("username"));
+        usernameElement.sendKeys(username);
         //enter password
-        WebElement password = driver.findElement(By.name("password"));
-        password.sendKeys("SuperSecretPassword!");
+        WebElement passwordElement = driver.findElement(By.name("password"));
+        passwordElement.sendKeys(password);
         //click login button
         WebElement logInButton = driver.findElement(By.tagName("button"));
         logInButton.click();
@@ -41,21 +43,19 @@ public class NegativeTests {
         //verifications:
         //same url
         String actualUrl = driver.getCurrentUrl();
-
         Assert.assertEquals(actualUrl, url, "Actual page URL is not the same as expected");
 
         //unsuccessful login message
         WebElement unSuccessMessage = driver.findElement(By.cssSelector("div#flash"));
-        String expectedMessage = "Your username is invalid!";
         String actualMessage = unSuccessMessage.getText();
-        Assert.assertTrue(actualMessage.contains(expectedMessage), "Actual message does not contain expected message.\nActual message: " + actualMessage + "\nExpected Message: " + expectedMessage);
+        Assert.assertTrue(actualMessage.contains(expectedErrorMessage), "Actual message does not contain expected message.\nActual message: " + actualMessage + "\nExpected Message: " + expectedErrorMessage);
 
         //close browser
         driver.quit();
     }
 
-    @Test(priority = 2, groups = {"negativeTests"})
-    public void negativePasswordTest(){
+ /*   @Test(priority = 2, groups = {"negativeTests"})
+    public void negativePasswordTest() {
         System.out.println("Starting negativePasswordTest");
 
         //Create driver
@@ -95,5 +95,5 @@ public class NegativeTests {
 
         //close browser
         driver.quit();
-    }
+    }*/
 }
