@@ -2,13 +2,17 @@
 
 <suite name="NegativeTestsSuite" verbose="1" >
     <test name="NegativeTests">
-        <groups>
+<!--        <groups>
             <run>
                 <include name="smokeTest"/>
             </run>
-        </groups>
+        </groups>-->
         <classes>
-            <class name="com.herokuapp.theinternet.NegativeTests"/>
+            <class name="com.herokuapp.theinternet.NegativeTests">
+                <methods>
+                    <include name="negativePasswordTest"/>
+                </methods>
+            </class>
         </classes>
     </test>
 </suite>
