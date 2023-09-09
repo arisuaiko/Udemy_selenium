@@ -3,28 +3,42 @@ package com.herokuapp.theinternet;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeDriverService;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.GeckoDriverService;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 public class LoginTests {
 
     private WebDriver driver;
 
+    @Parameters({"browser"})
     @BeforeMethod(alwaysRun = true)
-    private void setUp() {
+    private void setUp(@Optional("chrome") String browser) {
         //Create driver
-        GeckoDriverService service = new GeckoDriverService.Builder().withLogOutput(System.out).build();
-        System.setProperty("webdriver.gecko.driver", "src/main/resources/geckodriver");
-        driver = new FirefoxDriver(service);
-
+        switch (browser) {
+            case "chrome":
+                System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver");
+                driver = new ChromeDriver();
+                break;
+            case "firefox":
+                GeckoDriverService service = new GeckoDriverService.Builder().withLogOutput(System.out).build();
+                System.setProperty("webdriver.gecko.driver", "src/main/resources/geckodriver");
+                driver = new FirefoxDriver(service);
+                break;
+            default:
+                System.out.println("Do not know how to start" + browser + " , starting chrome instead");
+                System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver");
+                driver = new ChromeDriver();
+                break;
+        }
         //maximize browser window
         driver.manage().window().maximize();
     }
+
 
     @Test(priority = 1, groups = {"positiveTests", "smokeTests"})
     public void positiveLoginTest() {
