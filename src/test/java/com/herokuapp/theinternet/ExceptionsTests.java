@@ -37,7 +37,8 @@ public class ExceptionsTests {
     }
 
     @Test
-    public void homeworkTest(){
+    public void noSuchElementExceptionTest(){
+        //Test case 1: NoSuchElementException
         //Open page
         String url = "https://practicetestautomation.com/practice-test-exceptions/";
         driver.get(url);
@@ -45,6 +46,12 @@ public class ExceptionsTests {
         //Click Add button
         WebElement addButton = driver.findElement(By.xpath("/html//button[@id='add_btn']"));
         addButton.click();
+
+        try{
+            Thread.sleep(10000);
+        } catch (InterruptedException e){
+            e.printStackTrace();
+        }
 
         //Verify Row 2 input field is displayed
         WebElement rowTwoInputField = driver.findElement(By.xpath("//div[@id='row2']/input"));

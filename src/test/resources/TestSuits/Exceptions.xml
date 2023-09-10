@@ -1,12 +1,12 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
 
 <suite name="AllTests" verbose="1">
-    <test name="HomeworkTest">
+    <test name="ExceptionsTest">
         <parameter name="browser" value="firefox"/>
         <classes>
             <class name="com.herokuapp.theinternet.ExceptionsTests">
                 <methods>
-                    <include name="homeworkTest"/>
+                    <include name="noSuchElementExceptionTest"/>
                 </methods>
             </class>
         </classes>
