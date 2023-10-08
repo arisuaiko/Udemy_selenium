@@ -6,6 +6,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.GeckoDriverService;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
@@ -49,11 +51,11 @@ public class ExceptionsTests {
         WebElement addButton = driver.findElement(By.xpath("/html//button[@id='add_btn']"));
         addButton.click();
 
-        //Implicit wait
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        //Explicit wait
+        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
+        WebElement rowTwoInputField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='row2']/input")));
 
         //Verify Row 2 input field is displayed
-        WebElement rowTwoInputField = driver.findElement(By.xpath("//div[@id='row2']/input"));
         Assert.assertTrue(rowTwoInputField.isDisplayed(), "Row 2 input field is not displayed");
     }
 
