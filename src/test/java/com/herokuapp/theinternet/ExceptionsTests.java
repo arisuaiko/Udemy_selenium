@@ -9,6 +9,8 @@ import org.openqa.selenium.firefox.GeckoDriverService;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
+import java.time.Duration;
+
 public class ExceptionsTests {
     private WebDriver driver;
 
@@ -47,11 +49,8 @@ public class ExceptionsTests {
         WebElement addButton = driver.findElement(By.xpath("/html//button[@id='add_btn']"));
         addButton.click();
 
-        try{
-            Thread.sleep(10000);
-        } catch (InterruptedException e){
-            e.printStackTrace();
-        }
+        //Implicit wait
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
         //Verify Row 2 input field is displayed
         WebElement rowTwoInputField = driver.findElement(By.xpath("//div[@id='row2']/input"));
