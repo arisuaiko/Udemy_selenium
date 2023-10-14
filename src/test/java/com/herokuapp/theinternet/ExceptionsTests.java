@@ -97,10 +97,14 @@ public class ExceptionsTests {
 
         //Clear input field
         WebElement rowOneInputField = driver.findElement(By.xpath("//div[@id='row1']/input"));
+        WebElement editButton = driver.findElement(By.xpath("//div[@id='row1']/button[@name='Edit']"));
+        editButton.click();
         rowOneInputField.clear();
 
         //Type text into the input field
         rowOneInputField.sendKeys("Sushi");
+        WebElement saveButton = driver.findElement(By.xpath("//div[@id='row1']/button[@name='Save']"));
+        saveButton.click();
 
         //Verify text changed
         WebElement confirmationText = driver.findElement(By.xpath("/html//div[@id='confirmation']"));
