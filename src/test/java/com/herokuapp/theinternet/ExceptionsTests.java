@@ -88,6 +88,27 @@ public class ExceptionsTests {
         Assert.assertTrue(actualMessage.contains(expectedMessage), "Actual message does not contain expected message.\nActual message: " + actualMessage + "\nExpected Message: " + expectedMessage);
     }
 
+    @Test
+    public void invalidElementStateExceptionTest(){
+        //Test case 3: InvalidElementStateException
+        //Open page
+        String url = "https://practicetestautomation.com/practice-test-exceptions/";
+        driver.get(url);
+
+        //Clear input field
+        WebElement rowOneInputField = driver.findElement(By.xpath("//div[@id='row1']/input"));
+        rowOneInputField.clear();
+
+        //Type text into the input field
+        rowOneInputField.sendKeys("Sushi");
+
+        //Verify text changed
+        WebElement confirmationText = driver.findElement(By.xpath("/html//div[@id='confirmation']"));
+        String expectedMessage = "Row 1 was saved";
+        String actualMessage = confirmationText.getText();
+        Assert.assertTrue(actualMessage.contains(expectedMessage), "Actual message does not contain expected message.\nActual message: " + actualMessage + "\nExpected Message: " + expectedMessage);
+    }
+
     @AfterMethod(alwaysRun = true)
     private void tearDown() {
         //close browser
