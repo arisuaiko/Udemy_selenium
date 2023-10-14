@@ -107,10 +107,8 @@ public class ExceptionsTests {
         saveButton.click();
 
         //Verify text changed
-        WebElement confirmationText = driver.findElement(By.xpath("/html//div[@id='confirmation']"));
-        String expectedMessage = "Row 1 was saved";
-        String actualMessage = confirmationText.getText();
-        Assert.assertTrue(actualMessage.contains(expectedMessage), "Actual message does not contain expected message.\nActual message: " + actualMessage + "\nExpected Message: " + expectedMessage);
+       String value = rowOneInputField.getAttribute("value");
+       Assert.assertEquals(value,"Sushi", "Input 1 field value is not expected");
     }
 
     @AfterMethod(alwaysRun = true)
