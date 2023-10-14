@@ -75,10 +75,10 @@ public class ExceptionsTests {
         WebElement rowTwoInputField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='row2']/input")));
 
         //Type text into the second input field
-        rowTwoInputField.sendKeys("sushi");
+        rowTwoInputField.sendKeys("Sushi");
 
         //Push Save button using locator By.name(“Save”)
-        WebElement saveButton = driver.findElement(By.name("Save"));
+        WebElement saveButton = driver.findElement(By.xpath("//div[@id='row2']/button[@id='save_btn']"));
         saveButton.click();
 
         //Verify text saved
