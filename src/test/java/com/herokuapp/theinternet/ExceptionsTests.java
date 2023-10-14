@@ -140,6 +140,24 @@ public class ExceptionsTests {
         Assert.assertTrue(wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("instructions"))),"Instructions are still displayed");
     }
 
+    @Test
+    public void timeoutExceptionTest(){
+        //Test case 5: TimeoutException
+        //Open page
+        String url = "https://practicetestautomation.com/practice-test-exceptions/";
+        driver.get(url);
+
+        //Click Add button
+        WebElement addButton = driver.findElement(By.xpath("/html//button[@id='add_btn']"));
+        addButton.click();
+
+        //Wait for 3 seconds for the second input field to be displayed
+        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(3));
+
+        //Verify second input field is displayed
+        WebElement rowTwoInputField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='row2']/input")));
+    }
+
     @AfterMethod(alwaysRun = true)
     private void tearDown() {
         //close browser
