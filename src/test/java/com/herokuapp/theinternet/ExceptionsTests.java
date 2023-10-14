@@ -120,6 +120,26 @@ public class ExceptionsTests {
         Assert.assertTrue(actualMessage.contains(expectedMessage), "Actual message does not contain expected message.\nActual message: " + actualMessage + "\nExpected Message: " + expectedMessage);
     }
 
+    @Test
+    public void staleElementReferenceExceptionTest(){
+        //Test case 4: StaleElementReferenceException
+        //Open page
+        String url = "https://practicetestautomation.com/practice-test-exceptions/";
+        driver.get(url);
+
+        //Find the instructions text element
+        WebElement instructionsText = driver.findElement(By.xpath("/html//p[@id='instructions']"));
+        instructionsText.isDisplayed();
+
+        //Push add button
+        WebElement addButton = driver.findElement(By.xpath("/html//button[@id='add_btn']"));
+        addButton.click();
+
+        //Verify instruction text element is no longer displayed
+        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.invisibilityOf(instructionsText));
+    }
+
     @AfterMethod(alwaysRun = true)
     private void tearDown() {
         //close browser
