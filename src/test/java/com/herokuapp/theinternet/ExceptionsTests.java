@@ -153,9 +153,10 @@ public class ExceptionsTests {
 
         //Wait for 3 seconds for the second input field to be displayed
         WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(3));
+        WebElement rowTwoInputField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='row2']/input")));
 
         //Verify second input field is displayed
-        WebElement rowTwoInputField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='row2']/input")));
+        Assert.assertTrue(rowTwoInputField.isDisplayed(), "Row 2 input field is not displayed");
     }
 
     @AfterMethod(alwaysRun = true)
