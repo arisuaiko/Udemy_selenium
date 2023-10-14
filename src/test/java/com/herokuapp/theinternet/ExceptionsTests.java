@@ -137,7 +137,7 @@ public class ExceptionsTests {
 
         //Verify instruction text element is no longer displayed
         WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.invisibilityOf(instructionsText));
+        Assert.assertTrue(wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("instructions"))),"Instructions are still displayed");
     }
 
     @AfterMethod(alwaysRun = true)
