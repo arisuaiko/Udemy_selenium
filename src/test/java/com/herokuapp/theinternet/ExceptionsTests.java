@@ -96,9 +96,12 @@ public class ExceptionsTests {
         driver.get(url);
 
         //Clear input field
+        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
         WebElement rowOneInputField = driver.findElement(By.xpath("//div[@id='row1']/input"));
         WebElement editButton = driver.findElement(By.xpath("//div[@id='row1']/button[@name='Edit']"));
         editButton.click();
+
+        wait.until(ExpectedConditions.elementToBeClickable(rowOneInputField));
         rowOneInputField.clear();
 
         //Type text into the input field
@@ -110,7 +113,8 @@ public class ExceptionsTests {
         String value = rowOneInputField.getAttribute("value");
         Assert.assertEquals(value,"Sushi", "Input 1 field value is not expected");
 
-        WebElement confirmationText = driver.findElement(By.xpath("/html//div[@id='confirmation']"));
+        //Verify text saved
+        WebElement confirmationText = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html//div[@id='confirmation']")));
         String expectedMessage = "Row 1 was saved";
         String actualMessage = confirmationText.getText();
         Assert.assertTrue(actualMessage.contains(expectedMessage), "Actual message does not contain expected message.\nActual message: " + actualMessage + "\nExpected Message: " + expectedMessage);
