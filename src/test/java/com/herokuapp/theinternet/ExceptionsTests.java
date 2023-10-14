@@ -59,6 +59,35 @@ public class ExceptionsTests {
         Assert.assertTrue(rowTwoInputField.isDisplayed(), "Row 2 input field is not displayed");
     }
 
+    @Test
+    public void noIntractableElementExceptionTest(){
+        //Test case 2: ElementNotInteractableException
+        //Open page
+        String url = "https://practicetestautomation.com/practice-test-exceptions/";
+        driver.get(url);
+
+        //Click Add button
+        WebElement addButton = driver.findElement(By.xpath("/html//button[@id='add_btn']"));
+        addButton.click();
+
+        //Explicit wait
+        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
+        WebElement rowTwoInputField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='row2']/input")));
+
+        //Type text into the second input field
+        rowTwoInputField.sendKeys("sushi");
+
+        //Push Save button using locator By.name(“Save”)
+        WebElement saveButton = driver.findElement(By.name("Save"));
+        saveButton.click();
+
+        //Verify text saved
+        WebElement confirmationText = driver.findElement(By.xpath("/html//div[@id='confirmation']"));
+        String expectedMessage = "Row 2 was saved";
+        String actualMessage = confirmationText.getText();
+        Assert.assertTrue(actualMessage.contains(expectedMessage), "Actual message does not contain expected message.\nActual message: " + actualMessage + "\nExpected Message: " + expectedMessage);
+    }
+
     @AfterMethod(alwaysRun = true)
     private void tearDown() {
         //close browser
