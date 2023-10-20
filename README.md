@@ -4,7 +4,7 @@ Welcome to my personal repository for the Selenium WebDriver with Java for Begin
 
 ## My Learning Experience
 
-This course provided a step-by-step exploration of automation testing, from setting up WebDriver to executing my initial automated Selenium test. It's tailored for both complete beginners and those with some testing experience, ensuring a smooth learning curve for everyone.
+This course provided a step-by-step exploration of automation testing, from setting up WebDriver to executing my initial automated Selenium test.
 
 ## What I've Gained
 
